@@ -65,9 +65,6 @@ task-app/
 │   ├── cookie-provider.tsx         # Cookie provider
 │   ├── theme-provider.tsx          # Theme provider
 │   └── toast-provider.tsx          # Notification provider
-├── public/                         # Public files (images, etc.)
-├── styles/                         # Style files
-│   └── globals.css                 # Global styles
 ├── .eslintrc.json                  # ESLint configuration
 ├── .gitignore                      # Git ignored files and folders
 ├── next.config.mjs                 # Next.js configuration
