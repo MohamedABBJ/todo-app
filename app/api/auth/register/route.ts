@@ -23,12 +23,11 @@ export async function POST(request: NextRequest) {
     }
 
     const { db } = await connectToDatabase();
-    const hashedEmail = await bcrypt.hash(email.toLowerCase(), 10);
     const users = await db.collection("users").find({}).toArray();
 
     // Check if user already exists
     for (const user of users) {
-      const isMatch = await bcrypt.compare(email.toLowerCase(), user.email);
+      const isMatch = email.toLowerCase() == user.email;
       if (isMatch) {
         return NextResponse.json(
           { error: "Ya existe un usuario con este correo electrónico" },
@@ -42,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Insert new user into database
     const result = await db.collection("users").insertOne({
       name: name,
-      email: hashedEmail,
+      email: email,
       password: hashedPassword,
       createdAt: new Date(),
     });

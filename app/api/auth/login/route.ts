@@ -29,43 +29,32 @@ export async function POST(request: NextRequest) {
 
     // Connect to the database
     const { db } = await connectToDatabase();
-    // Retrieve all users from the "users" collection
-    const users = await db.collection("users").find({}).toArray();
+    // Find the user by email
+    const user = await db.collection("users").findOne({
+      email: email.toLowerCase(),
+    });
 
-    // Iterate through the list of users to find a match
-    for (const user of users) {
-      // Compare the provided email with the stored email
-      const isEmailMatch = await bcrypt.compare(
-        email.toLowerCase(),
-        user.email
+    const isPasswordMatch = await bcrypt.compare(password, user?.password);
+
+    if (!user || !isPasswordMatch) {
+      return NextResponse.json(
+        { error: "Credenciales inválidas" },
+        { status: 401 }
       );
-      // Compare the provided password with the stored one
-      const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-      // If both email and password match, let the user log in
-      if (isEmailMatch && isPasswordMatch) {
-        // Generate a JWT token with user details
-        const token = jwt.sign(
-          {
-            userId: user._id.toString(),
-            name: user.name || user.displayName,
-            email: email.toLowerCase(),
-          },
-          process.env.JWT_SECRET as string,
-          { expiresIn: "7d" }
-        );
-        // Return the token
-        return NextResponse.json({ token });
-      }
-
-      // If either email or password does not match, return an error
-      if (!isEmailMatch || !isPasswordMatch) {
-        return NextResponse.json(
-          { error: "Credenciales inválidas" },
-          { status: 401 }
-        );
-      }
     }
+
+    // Generate a JWT token with user details
+    const token = jwt.sign(
+      {
+        userId: user._id.toString(),
+        name: user.name || user.displayName,
+        email: email.toLowerCase(),
+      },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "7d" }
+    );
+    // Return the token
+    return NextResponse.json({ token });
   } catch (error) {
     // Log the error for debugging purposes
     console.error("Login error:", error);
