@@ -31,51 +31,51 @@
 
 ```
 task-app/
-├── app/                    # Application routes and pages
-│   ├── api/                # API endpoints
-│   │   ├── auth/           # Authentication endpoints
-│   │   │   ├── login/      # Login endpoint
-│   │   │   └── register/   # Registration endpoint
-│   │   └── tasks/          # Task endpoints
-│   ├── dashboard/          # Dashboard page
-│   ├── login/              # Login page
-│   ├── register/           # Registration page
-│   ├── layout.tsx          # Main application layout
-│   └── page.tsx            # Main page
-├── components/             # Reusable components
-│   ├── ui/                 # Basic UI components
-│   │   ├── button.tsx      # Button component
-│   │   ├── input.tsx       # Input component
-│   │   ├── loading-spinner.tsx # Loading spinner component
-│   │   └── textarea.tsx    # Textarea component
-│   ├── task-item.tsx       # Individual task component
-│   ├── task-item-delete-modal.tsx # Modal to confirm task deletion
-│   └── theme-switcher.tsx  # Theme switcher
-├── hooks/                  # Custom hooks
-│   └── use-check-auth.ts   # Hook to verify authentication
-├── lib/                    # Utilities and functions
-│   ├── auth-handlers.ts    # Functions to handle authentication
-│   ├── auth-verifier.ts    # Authentication verifier
-│   ├── db.ts               # Database connection
-│   ├── interfaces.ts       # TypeScript interfaces
-│   ├── rate-limit.ts       # Rate limiting implementation
-│   ├── task-requester.ts   # Functions to interact with tasks
-│   └── validations.ts      # Zod validation schemas
-├── providers/              # Context providers
-│   ├── cookie-provider.tsx # Cookie provider
-│   ├── theme-provider.tsx  # Theme provider
-│   └── toast-provider.tsx  # Notification provider
-├── public/                 # Public files (images, etc.)
-├── styles/                 # Style files
-│   └── globals.css         # Global styles
-├── .eslintrc.json          # ESLint configuration
-├── .gitignore              # Git ignored files and folders
-├── next.config.mjs         # Next.js configuration
-├── package.json            # Project dependencies and scripts
-├── postcss.config.mjs      # PostCSS configuration
-├── tailwind.config.js      # Tailwind CSS configuration
-├── tsconfig.json           # TypeScript configuration
-└── README.md               # Project documentation
+├── app/                            # Application routes and pages
+│   ├── api/                        # API endpoints
+│   │   ├── auth/                   # Authentication endpoints
+│   │   │   ├── login/              # Login endpoint
+│   │   │   └── register/           # Registration endpoint
+│   │   └── tasks/                  # Task endpoints
+│   ├── dashboard/                  # Dashboard page
+│   ├── login/                      # Login page
+│   ├── register/                   # Registration page
+│   ├── layout.tsx                  # Main application layout
+│   └── page.tsx                    # Main page
+├── components/                     # Reusable components
+│   ├── ui/                         # Basic UI components
+│   │   ├── button.tsx              # Button component
+│   │   ├── input.tsx               # Input component
+│   │   ├── loading-spinner.tsx     # Loading spinner component
+│   │   └── textarea.tsx            # Textarea component
+│   ├── task-item.tsx               # Individual task component
+│   ├── task-item-delete-modal.tsx  # Modal to confirm task deletion
+│   └── theme-switcher.tsx          # Theme switcher
+├── hooks/                          # Custom hooks
+│   └── use-check-auth.ts           # Hook to verify authentication
+├── lib/                            # Utilities and functions
+│   ├── auth-handlers.ts            # Functions to handle authentication
+│   ├── auth-verifier.ts            # Authentication verifier
+│   ├── db.ts                       # Database connection
+│   ├── interfaces.ts               # TypeScript interfaces
+│   ├── rate-limit.ts               # Rate limiting implementation
+│   ├── task-requester.ts           # Functions to interact with tasks
+│   └── validations.ts              # Zod validation schemas
+├── providers/                      # Context providers
+│   ├── cookie-provider.tsx         # Cookie provider
+│   ├── theme-provider.tsx          # Theme provider
+│   └── toast-provider.tsx          # Notification provider
+├── public/                         # Public files (images, etc.)
+├── styles/                         # Style files
+│   └── globals.css                 # Global styles
+├── .eslintrc.json                  # ESLint configuration
+├── .gitignore                      # Git ignored files and folders
+├── next.config.mjs                 # Next.js configuration
+├── package.json                    # Project dependencies and scripts
+├── postcss.config.mjs              # PostCSS configuration
+├── tailwind.config.js              # Tailwind CSS configuration
+├── tsconfig.json                   # TypeScript configuration
+└── README.md                       # Project documentation
 ```
 
 ## Installation and Setup
