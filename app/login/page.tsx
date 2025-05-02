@@ -17,6 +17,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // Setup form validation and state
   const {
     register,
     handleSubmit,
@@ -25,6 +26,7 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
+  // Handle login form submission
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
 

@@ -1,6 +1,7 @@
 import { ButtonProps } from "@/lib/interfaces";
 import React from "react";
 
+// Custom Button component with support for variants and sizes
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -12,9 +13,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    // Base styles for all buttons
     const baseStyles =
       "rounded-xl inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
 
+    // Styles based on the variant prop
     let variantClasses = "";
     switch (variant) {
       case "default":
@@ -31,6 +34,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         break;
     }
 
+    // Styles based on the size prop
     let sizeClasses = "";
     switch (size) {
       case "default":
@@ -47,8 +51,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         break;
     }
 
+    // Combine all classes to create the final button styles
     const allClasses = `${baseStyles} ${variantClasses} ${sizeClasses} ${className}`;
 
+    // Render the button element
     return (
       <button className={allClasses} ref={ref} {...props}>
         {children}

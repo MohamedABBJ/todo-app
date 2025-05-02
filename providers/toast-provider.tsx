@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+// Provides the ToastContainer for showing toast notifications in the app
 export function ToastProvider() {
   return (
     <ToastContainer
@@ -17,5 +18,5 @@ export function ToastProvider() {
       pauseOnHover
       theme="colored"
     />
-  )
+  );
 }

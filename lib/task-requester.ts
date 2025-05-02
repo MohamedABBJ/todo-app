@@ -1,6 +1,7 @@
 import { getToken } from "@/lib/auth-handlers";
 import { TaskFormData } from "@/lib/validations";
 
+// Handles API requests for tasks based on the given mode
 export const taskRequester = async ({
   mode,
   data,
@@ -18,6 +19,7 @@ export const taskRequester = async ({
 }) => {
   const token = getToken();
 
+  // Get all tasks
   if (mode == "get") {
     const response = await fetch("/api/tasks", {
       headers: {
@@ -26,6 +28,7 @@ export const taskRequester = async ({
     });
     return response;
   }
+  // Add a new task
   if (mode == "add") {
     const response = await fetch("/api/tasks", {
       method: "POST",
@@ -40,6 +43,7 @@ export const taskRequester = async ({
     });
     return response;
   }
+  // Toggle task completion
   if (mode == "toggleComplete") {
     const response = await fetch(`/api/tasks/${taskId}`, {
       method: "PUT",
@@ -52,6 +56,7 @@ export const taskRequester = async ({
 
     return response;
   }
+  // Edit a task
   if (mode == "edit") {
     const response = await fetch(`/api/tasks/${taskId}`, {
       method: "PUT",
@@ -63,6 +68,7 @@ export const taskRequester = async ({
     });
     return response;
   }
+  // Delete a task
   if (mode == "delete") {
     const response = await fetch(`/api/tasks/${taskId}`, {
       method: "DELETE",

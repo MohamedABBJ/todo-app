@@ -3,13 +3,16 @@ import { authRateLimiter } from "@/lib/rate-limit";
 import bcrypt from "bcryptjs";
 import { type NextRequest, NextResponse } from "next/server";
 
+// Handles user registration
 export async function POST(request: NextRequest) {
   const rateLimitResult = await authRateLimiter(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {
+    // Get registration data from request
     const { name, email, password } = await request.json();
 
+    // Validate required fields
     if (!name || !email || !password) {
       return NextResponse.json(
         {
@@ -23,6 +26,7 @@ export async function POST(request: NextRequest) {
     const hashedEmail = await bcrypt.hash(email.toLowerCase(), 10);
     const users = await db.collection("users").find({}).toArray();
 
+    // Check if user already exists
     for (const user of users) {
       const isMatch = await bcrypt.compare(email.toLowerCase(), user.email);
       if (isMatch) {
@@ -32,8 +36,10 @@ export async function POST(request: NextRequest) {
         );
       }
     }
+    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Insert new user into database
     const result = await db.collection("users").insertOne({
       name: name,
       email: hashedEmail,
@@ -46,6 +52,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
+    // Handle server errors
     console.error("Registration error:", error);
     return NextResponse.json(
       { error: "Error interno del servidor" },

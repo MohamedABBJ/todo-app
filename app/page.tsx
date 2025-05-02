@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+// Home page
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-background">

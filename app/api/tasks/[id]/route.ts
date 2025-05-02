@@ -6,19 +6,22 @@ import { ObjectId } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+// Get a specific task for the authenticated user
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Rate limiting
   const rateLimitResult = await taskRateLimiter(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {
+    // Verify user authentication
     const user = await verifyAuth(request);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
+    // Fetch task from the database
     const { db } = await connectToDatabase();
     const task = await db.collection("tasks").findOne({
       _id: new ObjectId(params.id),
@@ -31,6 +34,7 @@ export async function GET(
 
     return NextResponse.json(task);
   } catch (error) {
+    // Log the server error
     console.error("Get task error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
@@ -39,10 +43,12 @@ export async function GET(
   }
 }
 
+// Update a specific task for the authenticated user
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Rate limiting
   const rateLimitResult = await taskRateLimiter(request);
   if (rateLimitResult) return rateLimitResult;
 
@@ -54,6 +60,7 @@ export async function PUT(
 
     const body = await request.json();
 
+    // Validate title/description if provided
     if (body.title !== undefined || body.description !== undefined) {
       try {
         taskSchema.parse({
@@ -70,6 +77,7 @@ export async function PUT(
       }
     }
 
+    // Prepare update data
     const updateData: {
       title?: string;
       description?: string;
@@ -77,11 +85,13 @@ export async function PUT(
       updatedAt: Date;
     } = { updatedAt: new Date() };
 
+    // Update title/description if provided
     if (body.title !== undefined) updateData.title = body.title;
     if (body.description !== undefined)
       updateData.description = body.description;
     if (body.completed !== undefined) updateData.completed = body.completed;
 
+    // Update task
     const { db } = await connectToDatabase();
     const result = await db
       .collection("tasks")
@@ -96,6 +106,7 @@ export async function PUT(
 
     return NextResponse.json({ message: "Task updated successfully" });
   } catch (error) {
+    // Log the server error
     console.error("Update task error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
@@ -104,31 +115,35 @@ export async function PUT(
   }
 }
 
+// Delete a specific task for the authenticated user
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Rate limiting
   const rateLimitResult = await taskRateLimiter(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {
+    // Verify user authentication
     const user = await verifyAuth(request);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
+    // Delete task
     const { db } = await connectToDatabase();
     const result = await db.collection("tasks").deleteOne({
       _id: new ObjectId(params.id),
       userId: user.userId,
     });
-
+    // Check if task was deleted
     if (result.deletedCount === 0) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
     }
 
     return NextResponse.json({ message: "Task deleted successfully" });
   } catch (error) {
+    // Log the server error
     console.error("Delete task error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

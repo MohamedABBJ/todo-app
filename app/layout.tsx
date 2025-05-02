@@ -5,10 +5,12 @@ import { Inter } from "next/font/google";
 import type React from "react";
 import "./globals.css";
 
+//Adding font that will be used on body class
 const inter = Inter({ subsets: ["latin"] });
 
+//Metadata
 export const metadata = {
-  title: "ToDo App",
+  title: "Todo App",
   description: "Una aplicación web para gestionar tareas",
 };
 

@@ -5,17 +5,20 @@ import { taskSchema } from "@/lib/validations";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+// Get all tasks for the authenticated user
 export async function GET(request: NextRequest) {
-  // Apply rate limiting
+  // Rate limiting
   const rateLimitResult = await taskRateLimiter(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {
+    // Verify user authentication
     const user = await verifyAuth(request);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Fetch tasks from the database for the user
     const { db } = await connectToDatabase();
     const tasks = await db
       .collection("tasks")
@@ -33,12 +36,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// Create a new task for the authenticated user
 export async function POST(request: NextRequest) {
-  // Apply rate limiting
+  // Rate limiting
   const rateLimitResult = await taskRateLimiter(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {
+    // Verify user authentication
     const user = await verifyAuth(request);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -46,6 +51,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
+    // Validate request body using schema
     try {
       taskSchema.parse(body);
     } catch (error) {
@@ -59,6 +65,7 @@ export async function POST(request: NextRequest) {
 
     const { title, description = "" } = body;
 
+    // Prepare and insert the new task
     const { db } = await connectToDatabase();
     const task = {
       title,
@@ -76,6 +83,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
+    // Log the server error
     console.error("Create task error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

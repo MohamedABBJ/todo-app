@@ -9,6 +9,7 @@ export function ThemeSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // Close the dropdown if clicking outside
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -27,6 +28,7 @@ export function ThemeSwitcher() {
 
   return (
     <div className="relative" ref={ref}>
+      {/* Button to open theme menu */}
       <button
         className="inline-flex items-center justify-center rounded-md border border-input h-10 w-10 bg-background hover:bg-accent hover:text-accent-foreground"
         onClick={() => setIsOpen(!isOpen)}
@@ -37,6 +39,7 @@ export function ThemeSwitcher() {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-36 rounded-md border bg-background shadow-md z-10">
           <div className="p-1">
+            {/* Light theme option */}
             <button
               className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
               onClick={() => {
@@ -47,6 +50,7 @@ export function ThemeSwitcher() {
               <Sun className="mr-2 h-4 w-4" />
               <span>Claro</span>
             </button>
+            {/* Dark theme option */}
             <button
               className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
               onClick={() => {
@@ -57,6 +61,7 @@ export function ThemeSwitcher() {
               <Moon className="mr-2 h-4 w-4" />
               <span>Oscuro</span>
             </button>
+            {/* System theme option */}
             <button
               className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
               onClick={() => {

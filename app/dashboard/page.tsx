@@ -23,6 +23,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  // Form setup for adding a new task
   const {
     register,
     handleSubmit,
@@ -36,10 +37,10 @@ export default function Dashboard() {
     },
   });
 
+  // Check authentication and fetch tasks on mount
   useEffect(() => {
     const checkAuth = async () => {
       const token = getToken();
-      console.log(token);
       if (!token) {
         router.push("/login");
         return;
@@ -70,6 +71,7 @@ export default function Dashboard() {
     checkAuth();
   }, [router]);
 
+  // Add a new task
   const handleAddTask = async (data: TaskFormData) => {
     try {
       const response = (await taskRequester({
@@ -82,8 +84,6 @@ export default function Dashboard() {
       }
 
       const newTask = await response.json();
-
-      // Use a callback to ensure we have the latest state
       setTasks((prevTasks) => [newTask, ...prevTasks]);
       reset();
       toast.success("Tarea añadida exitosamente");
@@ -93,6 +93,7 @@ export default function Dashboard() {
     }
   };
 
+  // Toggle task completion
   const handleToggleComplete = async (taskId: string, completed: boolean) => {
     try {
       const response = (await taskRequester({
@@ -116,6 +117,7 @@ export default function Dashboard() {
     }
   };
 
+  // Edit a task
   const handleEditTask = async (
     taskId: string,
     title: string,
@@ -145,6 +147,7 @@ export default function Dashboard() {
     }
   };
 
+  // Delete a task
   const handleDeleteTask = async (taskId: string) => {
     try {
       const response = (await taskRequester({
@@ -164,6 +167,7 @@ export default function Dashboard() {
     }
   };
 
+  // Logout and redirect to login
   const handleLogout = () => {
     logout();
     router.push("/login");
@@ -191,6 +195,7 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Form to add a new task */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -238,6 +243,7 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
+        {/* Task list */}
         <div className="space-y-4">
           <AnimatePresence mode="wait">
             {tasks.length === 0 ? (

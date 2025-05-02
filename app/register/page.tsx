@@ -17,6 +17,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // Setup form validation and state
   const {
     register,
     handleSubmit,
@@ -25,6 +26,7 @@ export default function Register() {
     resolver: zodResolver(registerSchema),
   });
 
+  // Handle registration form submission
   const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
 

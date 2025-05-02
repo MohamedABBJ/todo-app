@@ -1,6 +1,6 @@
 "use client";
 
-import { TaskItemDeleteModal } from "@/components/task-item-delete-modal"; // Import the modal
+import { TaskItemDeleteModal } from "@/components/task-item-delete-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,6 +24,7 @@ export default function TaskItem({
   const [isExpanded, setIsExpanded] = useState(false);
   const { authHandler } = useCheckAuth();
 
+  // Setup form for editing a task
   const {
     register,
     handleSubmit,
@@ -37,16 +38,19 @@ export default function TaskItem({
     },
   });
 
+  // Enable editing mode and set form values
   const startEditing = () => {
     setValue("title", task.title);
     setValue("description", task.description || "");
     setIsEditing(true);
   };
 
+  // Cancel editing
   const cancelEditing = () => {
     setIsEditing(false);
   };
 
+  // Submit edited task
   const submitEdit = (data: TaskFormData) => {
     if (authHandler()) {
       onEdit(task._id, data.title, data.description || "");
@@ -54,6 +58,7 @@ export default function TaskItem({
     }
   };
 
+  // Expand/collapse task description
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -106,7 +111,7 @@ export default function TaskItem({
             <div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4 flex-1 min-w-0">
-                  {/* Custom Checkbox */}
+                  {/* Custom Checkbox for completion */}
                   <div className="relative flex items-center">
                     <input
                       type="checkbox"
@@ -160,6 +165,7 @@ export default function TaskItem({
                   >
                     <Edit className="w-4 h-4" />
                   </button>
+
                   <button
                     onClick={() => setIsDeleteModalOpen(true)}
                     className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-9 w-9 hover:bg-accent hover:text-accent-foreground text-red-500 hover:text-red-700 hover:bg-red-50"
@@ -186,7 +192,7 @@ export default function TaskItem({
         </div>
       </motion.div>
 
-      {/* TaskItemDeleteModal Integration */}
+      {/* Modal for confirming task deletion */}
       <TaskItemDeleteModal
         isDeleteModalOpen={isDeleteModalOpen}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
